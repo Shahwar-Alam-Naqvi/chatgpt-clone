@@ -9,7 +9,8 @@ load_dotenv()
 
 # openai key
 # openai.api_key = os.environ.get("OPENAI_API_KEY")
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+# client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 
 # 2. Set Title
