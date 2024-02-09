@@ -1,38 +1,35 @@
-# 1. Import Streamlit
-import streamlit as st
-
-# 2. Other imports and Set openai key
+# 1. Imports
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
-load_dotenv()
+import streamlit as st
 
-# openai key
-# openai.api_key = os.environ.get("OPENAI_API_KEY")
-# client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+# 2. Initialize OpenAI client with your API key
+load_dotenv()
+client = OpenAI(api_key=os.environ.get("MY_OPENAI_API_KEY"))
 
 # 3. Set Title
 st.title("ChatGPT Clone")
 
 # 4. Initialize chat history
 if "messages" not in st.session_state:
-    st.session_state.messages = [] # '''
+    st.session_state.messages = []
+                                                                # '''
                                                                 # message = [
                                                                 #     {"role": "user", "content": "Our Prompt"},
                                                                 #     {"role": "assistant", "content": "The Response"},
                                                                 #     ...
                                                                 # ]
-# 4. Display chat messages from history
+# 5. Display chat messages from history
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
         
-# 5. Model assigining
+# 6. Model assigining
 if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-3.5-turbo"
-        
-# 6. React to user input.
+    st.session_state["openai_model"] = "gpt-3.5-turbo-16k-0613"
+
+# 7. React to user input.
 prompt = st.chat_input("What is up ?")
 if prompt:
     # ======== USER CONTAINER ========
@@ -49,8 +46,7 @@ if prompt:
             model=st.session_state["openai_model"],
             messages=[
                 {"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages
-            ], # focus on the loop, helps keep context by simulating a conversation.
+                for m in st.session_state.messages], # focus on the loop, helps keep context by simulating a conversation.
             stream=True,
         )
         response = st.write_stream(stream)
